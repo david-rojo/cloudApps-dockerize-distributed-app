@@ -7,7 +7,7 @@ FROM node:lts-alpine as builder
 WORKDIR /usr/src/app/
 
 # Copy dependency file
-COPY server/package.json /usr/src/app/
+COPY package.json /usr/src/app/
 
 # Install only needed dependencies for the application
 RUN npm install --only=production
@@ -34,7 +34,7 @@ RUN curl -LJO https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wai
 COPY --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
 
 # Copy application files
-COPY server/src /usr/src/app/src
+COPY src /usr/src/app/src
 
 # Indicate exposed port by container
 EXPOSE 3000
