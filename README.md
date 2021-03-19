@@ -8,6 +8,10 @@ Para la construcción de los servicios y su ejecución, así como la ejecución 
 
 Esta solución está basada en el trabajo entregado por el alumno Miguel García Sanguino.
 
+## Arquitectura
+
+![ARCHITECTURE](doc/diagram/architecture-eolo-planner-dockerized.jpg)
+
 ## Iniciar servicios auxiliares: MongoDB, MySQL y RabbitMQ
 
 Los servicios auxiliares se ejecutan con la tecnología de contenedores Docker usando el siguiente comando:
