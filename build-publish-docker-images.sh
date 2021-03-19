@@ -38,6 +38,16 @@ docker push drojo/eoloplanner-planner:1.0
 echo 'Planner images published in dockerhub'
 echo ''
 
+# toposervice
+echo 'TOPOSERVICE'
+echo '-----------'
+echo 'Building toposervice image...'
+cd toposervice
+mvn compile jib:build -Dimage=drojo/eoloplanner-toposervice
+echo 'Toposervice image built and published in dockerhub using JIB'
+cd ..
+echo ''
+
 echo ''
 echo 'Script execution successfully finished!'
 echo ''
