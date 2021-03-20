@@ -10,6 +10,8 @@ echo ''
 echo 'Script started'
 echo ''
 
+# Build and publish docker image versions latest and 1.0 for each service
+
 # server
 echo ' --------'
 echo '| SERVER |'
