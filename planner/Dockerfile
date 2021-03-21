@@ -10,14 +10,16 @@ WORKDIR /project
 COPY pom.xml /project/
 
 # Download project dependencies
-RUN mvn clean verify
+RUN mvn clean verify --fail-never 
 
 # Copy project code
 COPY src /project/src
 
 # Compile project
-# not working with -o, missing POM for com.google.protobuf:protoc:exe:linux-x86_64:3.10.0
-#RUN mvn package -o
+# is not possible to use the commented command with -o because in build section of pom, is launched a rebuild and 
+# com.google.protobuf:protoc:exe:linux-x86_64:3.10.0 dependency is missing, so is needed to connecto to download it
+# RUN mvn package -o
+# But the rest of the dependencies are downloaded with mvn clean verify --fail-never command
 RUN mvn package
 
 ########################################

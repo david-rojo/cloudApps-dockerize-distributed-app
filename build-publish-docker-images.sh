@@ -19,7 +19,7 @@ echo ' --------'
 echo ''
 cd server
 echo 'Building server image...'
-docker build -f wait-for-it.Dockerfile -t $DOCKERHUB_NAME/eoloplanner-server .
+docker build -t $DOCKERHUB_NAME/eoloplanner-server .
 echo 'Server image built'
 cd ..
 docker tag $DOCKERHUB_NAME/eoloplanner-server $DOCKERHUB_NAME/eoloplanner-server:1.0
@@ -36,7 +36,7 @@ echo ' ---------'
 echo ''
 cd planner
 echo 'Building planner image...'
-docker build -f cache-multistage.Dockerfile -t $DOCKERHUB_NAME/eoloplanner-planner .
+docker build -t $DOCKERHUB_NAME/eoloplanner-planner .
 echo 'Planner image built'
 cd ..
 docker tag $DOCKERHUB_NAME/eoloplanner-planner $DOCKERHUB_NAME/eoloplanner-planner:1.0
