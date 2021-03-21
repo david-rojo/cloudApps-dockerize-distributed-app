@@ -52,14 +52,16 @@ services:
   toposervice:
     image: drojo/eoloplanner-toposervice:1.0
     environment:
-      - MONGO_DB_HOST=localhost
+      - MONGO_DB_HOST=toposervice-mongodb
       - MONGO_DB_PORT=27017
       - MONGO_DB_NAME=topo
     expose:
       - 8080
     ports:
       - 8080:8080
-    depends:
+    hostname: toposervice
+    container_name: toposervice
+    depends_on:
       - toposervice-mongodb
 
   weatherservice:
@@ -71,6 +73,8 @@ services:
       - 9090
     ports:
       - 9090:9090
+    hostname: weatherservice
+    container_name: weatherservice
 
   planner:
     image: drojo/eoloplanner-planner:1.0
@@ -83,6 +87,8 @@ services:
       - GRPC_PORT=9090
       - TOPOSERVICE_HOST=toposervice
       - TOPOSERVICE_PORT=8080
+    hostname: planner
+    container_name: planner
     depends_on:
       - eolo-rabbitmq
       - toposervice
@@ -104,6 +110,8 @@ services:
       - 3000
     ports:
       - 3000:3000
+    hostname: server
+    container_name: server
     depends_on: 
       - server-mysql
       - eolo-rabbitmq

@@ -6,7 +6,7 @@ cat doc/banner/banner.txt
 echo ''
 
 echo 'Script started'
-echo 'This script builds and publishes docker images version latest and 1.0 for each service'
+echo 'This script builds and publishes docker images version latest and 1.0 in dockerhub for each service'
 echo ''
 
 echo 'dockerhub user: '$DOCKERHUB_NAME
