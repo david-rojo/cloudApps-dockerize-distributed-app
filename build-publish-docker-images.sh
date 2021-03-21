@@ -2,17 +2,12 @@
 
 DOCKERHUB_NAME=drojo
 
-echo '##################'
-echo '##################'
-echo '## EOLO PLANNER ##'
-echo '##################'
-echo '##################'
+cat doc/banner/banner.txt
 echo ''
 
 echo 'Script started'
+echo 'This script builds and publishes docker images version latest and 1.0 for each service'
 echo ''
-
-# Build and publish docker image versions latest and 1.0 for each service
 
 echo 'dockerhub user: '$DOCKERHUB_NAME
 echo ''
@@ -21,6 +16,7 @@ echo ''
 echo ' --------'
 echo '| SERVER |'
 echo ' --------'
+echo ''
 cd server
 echo 'Building server image...'
 docker build -f wait-for-it.Dockerfile -t $DOCKERHUB_NAME/eoloplanner-server .
@@ -37,6 +33,7 @@ echo ''
 echo ' ---------'
 echo '| PLANNER |'
 echo ' ---------'
+echo ''
 cd planner
 echo 'Building planner image...'
 docker build -f cache-multistage.Dockerfile -t $DOCKERHUB_NAME/eoloplanner-planner .
@@ -53,6 +50,7 @@ echo ''
 echo ' -------------'
 echo '| TOPOSERVICE |'
 echo ' -------------'
+echo ''
 cd toposervice
 echo 'Building toposervice image...'
 mvn compile jib:build -Dimage=$DOCKERHUB_NAME/eoloplanner-toposervice
@@ -65,6 +63,7 @@ echo ''
 echo ' ----------------'
 echo '| WEATHERSERVICE |'
 echo ' ----------------'
+echo ''
 cd weatherservice
 echo 'Building weatherservice image...'
 pack build $DOCKERHUB_NAME/eoloplanner-weatherservice --path . --builder gcr.io/buildpacks/builder:v1

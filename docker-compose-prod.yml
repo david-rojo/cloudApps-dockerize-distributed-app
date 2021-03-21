@@ -1,0 +1,104 @@
+version: '3.9'
+
+services:
+  server-mysql:
+    image: mysql:8.0.22
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=eoloplantsDB
+    expose: 
+      - 3306
+    ports:
+      - "3306:3306"
+    hostname: server-mysql
+    container_name: server-mysql
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./prod/mysql:/var/lib/mysql
+  toposervice-mongodb:
+    image: mongo:4.4.2-bionic
+    expose: 
+      - 27017
+    ports:
+      - "27017:27017"
+    hostname: toposervice-mongodb
+    container_name: toposervice-mongodb
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./prod/mongo:/data/db
+  eolo-rabbitmq:
+    image: rabbitmq:3.8.14-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    expose: 
+      - 5672
+      - 15672
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    hostname: eolo-rabbitmq
+    container_name: eolo-rabbitmq
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./prod/rabbitmq:/var/lib/rabbitmq
+  toposervice:
+    image: drojo/eoloplanner-toposervice:1.0
+    environment:
+      - MONGO_DB_HOST=localhost
+      - MONGO_DB_PORT=27017
+      - MONGO_DB_NAME=topo
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    depends:
+      - toposervice-mongodb
+  weatherservice:
+    image: drojo/eoloplanner-weatherservice:1.0
+    environment:
+      - GRPC_HOST=weatherservice
+      - GRPC_PORT=9090
+    expose:
+      - 9090
+    ports:
+      - 9090:9090
+  planner:
+    image: drojo/eoloplanner-planner:1.0
+    environment:
+      - RABBITMQ_HOST=eolo-rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=guest
+      - RABBITMQ_PASS=guest
+      - GRPC_HOST=weatherservice
+      - GRPC_PORT=9090
+      - TOPOSERVICE_HOST=toposervice
+      - TOPOSERVICE_PORT=8080
+    depends_on:
+      - eolo-rabbitmq
+      - toposervice
+      - weatherservice
+  server:
+    image: drojo/eoloplanner-server:1.0
+    environment:
+      - RABBITMQ_HOST=eolo-rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=guest
+      - RABBITMQ_PASS=guest
+      - MYSQL_HOST=server-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=eoloplantsDB
+      - MYSQL_USER=root
+      - MYSQL_PASS=password
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    depends_on: 
+      - server-mysql
+      - eolo-rabbitmq
+    # -t param defines the timeout in seconds, zero value means no timeout, so it waits until the resource will be available
+    command: ["./wait-for-it.sh", "-t", "0", "server-mysql:3306", "--", "./wait-for-it.sh", "-t", "0", "eolo-rabbitmq:5672", "--", "node", "src/server.js"]
