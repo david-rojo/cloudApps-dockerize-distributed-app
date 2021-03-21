@@ -4,9 +4,8 @@ services:
   
   server-mysql:
     image: mysql:8.0.22
-    environment:
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=eoloplantsDB
+    env_file:
+      - prod.env
     expose: 
       - 3306
     ports:
@@ -20,6 +19,8 @@ services:
 
   toposervice-mongodb:
     image: mongo:4.4.2-bionic
+    env_file:
+      - prod.env
     expose: 
       - 27017
     ports:
@@ -33,9 +34,8 @@ services:
 
   eolo-rabbitmq:
     image: rabbitmq:3.8.14-management-alpine
-    environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
+    env_file:
+      - prod.env
     expose: 
       - 5672
       - 15672
@@ -51,10 +51,8 @@ services:
 
   toposervice:
     image: drojo/eoloplanner-toposervice:1.0
-    environment:
-      - MONGO_DB_HOST=toposervice-mongodb
-      - MONGO_DB_PORT=27017
-      - MONGO_DB_NAME=topo
+    env_file:
+      - prod.env
     expose:
       - 8080
     ports:
@@ -66,9 +64,8 @@ services:
 
   weatherservice:
     image: drojo/eoloplanner-weatherservice:1.0
-    environment:
-      - GRPC_HOST=weatherservice
-      - GRPC_PORT=9090
+    env_file:
+      - prod.env
     expose:
       - 9090
     ports:
@@ -78,15 +75,8 @@ services:
 
   planner:
     image: drojo/eoloplanner-planner:1.0
-    environment:
-      - RABBITMQ_HOST=eolo-rabbitmq
-      - RABBITMQ_PORT=5672
-      - RABBITMQ_USER=guest
-      - RABBITMQ_PASS=guest
-      - GRPC_HOST=weatherservice
-      - GRPC_PORT=9090
-      - TOPOSERVICE_HOST=toposervice
-      - TOPOSERVICE_PORT=8080
+    env_file:
+      - prod.env
     hostname: planner
     container_name: planner
     depends_on:
@@ -96,16 +86,8 @@ services:
 
   server:
     image: drojo/eoloplanner-server:1.0
-    environment:
-      - RABBITMQ_HOST=eolo-rabbitmq
-      - RABBITMQ_PORT=5672
-      - RABBITMQ_USER=guest
-      - RABBITMQ_PASS=guest
-      - MYSQL_HOST=server-mysql
-      - MYSQL_PORT=3306
-      - MYSQL_DATABASE=eoloplantsDB
-      - MYSQL_USER=root
-      - MYSQL_PASS=password
+    env_file:
+      - prod.env
     expose:
       - 3000
     ports:
