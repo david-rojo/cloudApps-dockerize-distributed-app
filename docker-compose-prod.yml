@@ -1,6 +1,7 @@
 version: '3.9'
 
 services:
+  
   server-mysql:
     image: mysql:8.0.22
     environment:
@@ -16,6 +17,7 @@ services:
     tty: true
     volumes:
       - ./prod/mysql:/var/lib/mysql
+
   toposervice-mongodb:
     image: mongo:4.4.2-bionic
     expose: 
@@ -28,6 +30,7 @@ services:
     tty: true
     volumes:
       - ./prod/mongo:/data/db
+
   eolo-rabbitmq:
     image: rabbitmq:3.8.14-management-alpine
     environment:
@@ -45,6 +48,7 @@ services:
     tty: true
     volumes:
       - ./prod/rabbitmq:/var/lib/rabbitmq
+
   toposervice:
     image: drojo/eoloplanner-toposervice:1.0
     environment:
@@ -57,6 +61,7 @@ services:
       - 8080:8080
     depends:
       - toposervice-mongodb
+
   weatherservice:
     image: drojo/eoloplanner-weatherservice:1.0
     environment:
@@ -66,6 +71,7 @@ services:
       - 9090
     ports:
       - 9090:9090
+
   planner:
     image: drojo/eoloplanner-planner:1.0
     environment:
@@ -81,6 +87,7 @@ services:
       - eolo-rabbitmq
       - toposervice
       - weatherservice
+
   server:
     image: drojo/eoloplanner-server:1.0
     environment:
