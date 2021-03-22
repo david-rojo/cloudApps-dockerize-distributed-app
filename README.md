@@ -24,9 +24,47 @@ $ ./build-publish-docker-images.sh
 
 As it can be seen in the script, ```latest``` and ```1.0``` versions of each service are built and uploaded.
 
-## Changes applied
+## Changes applied to the code
 
-PENDING
+* **Server**
+  * Get connection values from environment variables in [amqpConnection.js](server/src/connections/amqpConnection.js) and [mysqlConnection.js](server/src/connections/mysqlConnection.js). 
+
+* **Planner**
+  * Get connection values from environment variables in [application.properties](planner/src/main/resources/application.properties) and [TopoClient.java](planner/src/main/java/es/codeurjc/mastercloudapps/planner/clients/TopoClient.java). 
+
+* **Toposervice**
+  * Get connection values from environment variables in [application.properties](toposervice/src/main/resources/application.properties).
+  * Implement by code waiting to the mongo database will be ready and then launch te application:
+  
+  [*pom.xml*](toposervice/pom.xml)
+  ```
+  <dependency>
+    <groupId>org.springframework.retry</groupId>
+    <artifactId>spring-retry</artifactId>
+  </dependency>
+  ```
+  
+  [*Application.java*](toposervice/src/main/java/es/codeurjc/mastercloudapps/topo/Application.java)
+  ```
+  @SpringBootApplication
+  public class Application {
+
+	public static void main(String[] args) {
+	
+		RetryTemplate template = new RetryTemplate();
+		AlwaysRetryPolicy policy = new AlwaysRetryPolicy();
+		template.setRetryPolicy(policy);
+		template.execute(context -> {
+			SpringApplication.run(Application.class, args);
+			return true;
+		});
+	}
+  ```
+  
+* **Weatherservice**
+
+  * Get connection values from environment variables in [server.js](weatherservice/src/server.js).
+  * Include ```start``` command in ```scripts``` attribute in [package.json](weatherservice/package.json) with value ```node src/server.js``` in order that the application can be started when the container will be lauched.
 
 ## Launch the application (production)
 
