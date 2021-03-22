@@ -24,6 +24,12 @@ $ ./build-publish-docker-images.sh
 
 As it can be seen in the script, ```latest``` and ```1.0``` versions of each service are built and uploaded.
 
+Docker images available in dockerhub:
+* [server](https://hub.docker.com/repository/docker/drojo/eoloplanner-server)
+* [planner](https://hub.docker.com/repository/docker/drojo/eoloplanner-planner)
+* [toposervice](https://hub.docker.com/repository/docker/drojo/eoloplanner-toposervice)
+* [weatherservice](https://hub.docker.com/repository/docker/drojo/eoloplanner-weatherservice)
+
 ## Changes applied
 
 * **Server**
