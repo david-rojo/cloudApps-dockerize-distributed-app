@@ -77,6 +77,10 @@
 	</dependencies>
 
 	<build>
+		<!-- name of jar file when the application will be compiled-->
+		<!-- used in Dockerfile to launch application in the container-->
+		<finalName>planner</finalName>
+
 		<extensions>
 			<extension>
 				<groupId>kr.motd.maven</groupId>

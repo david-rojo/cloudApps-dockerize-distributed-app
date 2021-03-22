@@ -34,4 +34,4 @@ WORKDIR /usr/src/app/
 COPY --from=builder /project/target/*.jar /usr/src/app/
 
 # Command executed with docker run
-CMD [ "java", "-jar", "planner-0.0.1-SNAPSHOT.jar" ]
+CMD [ "java", "-jar", "planner.jar" ]
