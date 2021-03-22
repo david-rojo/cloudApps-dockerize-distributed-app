@@ -64,7 +64,7 @@ As it can be seen in the script, ```latest``` and ```1.0``` versions of each ser
 * **Weatherservice**
 
   * Get connection values from environment variables in [server.js](weatherservice/src/server.js).
-  * Include ```start``` command in ```scripts``` attribute in [package.json](weatherservice/package.json) with value ```node src/server.js``` in order that the application can be started when the container will be lauched.
+  * Include ```start``` command in ```scripts``` attribute in [package.json](weatherservice/package.json) with value ```node src/server.js``` in order that the application can be started when the container will be launched.
 
 ## Launch the application (production)
 
