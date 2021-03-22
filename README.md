@@ -34,7 +34,7 @@ As it can be seen in the script, ```latest``` and ```1.0``` versions of each ser
 
 * **Toposervice**
   * Get connection values from environment variables in [application.properties](toposervice/src/main/resources/application.properties).
-  * Implement by code waiting to the mongo database will be ready and then launch te application:
+  * Implement by code waiting to the mongo database will be ready and then launch the application:
   
   [*pom.xml*](toposervice/pom.xml)
   ```
