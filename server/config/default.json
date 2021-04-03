@@ -1,6 +1,6 @@
 {
   "amqp": {
-    "url": "amqp://guest:guest@localhost",
+    "url": "amqp://root:password@localhost",
     "queues": {
       "progress": "eoloplantCreationProgressNotifications",
       "creation": "eoloplantCreationRequests"

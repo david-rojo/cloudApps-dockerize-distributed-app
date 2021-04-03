@@ -7,8 +7,6 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=eoloplantsDB
-    expose: 
-      - 3306
     ports:
       - "3306:3306"
     hostname: server-mysql
@@ -17,11 +15,10 @@ services:
     tty: true
     volumes:
       - ./dev/mysql:/var/lib/mysql
+    restart: always
 
   toposervice-mongodb:
     image: mongo:4.4.2-bionic
-    expose: 
-      - 27017
     ports:
       - "27017:27017"
     hostname: toposervice-mongodb
@@ -30,15 +27,13 @@ services:
     tty: true
     volumes:
       - ./dev/mongo:/data/db
+    restart: always
 
   eolo-rabbitmq:
     image: rabbitmq:3.8.14-management-alpine
     environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
-    expose: 
-      - 5672
-      - 15672
+      - RABBITMQ_DEFAULT_USER=root
+      - RABBITMQ_DEFAULT_PASS=password
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -48,3 +43,4 @@ services:
     tty: true
     volumes:
       - ./dev/rabbitmq:/var/lib/rabbitmq
+    restart: always

@@ -78,3 +78,5 @@ echo ''
 
 echo 'Script execution successfully finished!'
 echo ''
+
+exit 0
